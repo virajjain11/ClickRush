@@ -1,9 +1,25 @@
-function App() {
-  return (
-    <>
-      <h1 className="text-3xl font-bold ">Welcome to React with Vite!</h1>
-    </>
-  );
+import {
+  Outlet,
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from "react-router";
+import SignIn from "./components/SignIn";
+
+function Layout() {
+  return <Outlet />;
 }
 
-export default App;
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Layout />}>
+      <Route index element={<div>Hello World</div>} />
+      <Route path="sign-in" element={<SignIn />} />
+    </Route>,
+  ),
+);
+
+export default function App() {
+  return <RouterProvider router={router} />;
+}
