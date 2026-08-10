@@ -4,22 +4,17 @@ import { z } from "zod";
 import { getErrorMessage } from "../utils/formError";
 import styles from "./Auth.module.css";
 
-const signInSchema = z.object({
+const forgotPasswordSchema = z.object({
   email: z.email("Enter a valid email address"),
-  password: z
-    .string()
-    .min(1, "Password is required")
-    .min(8, "Password must be at least 8 characters"),
 });
 
-export default function SignIn() {
+export default function ForgotPassword() {
   const form = useForm({
     defaultValues: {
       email: "",
-      password: "",
     },
     validators: {
-      onChange: signInSchema,
+      onChange: forgotPasswordSchema,
     },
     onSubmit: async ({ value }) => {
       console.log(value);
@@ -29,8 +24,10 @@ export default function SignIn() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <h1 className={styles.title}>Sign in</h1>
-        <p className={styles.subtitle}>Enter your credentials to continue.</p>
+        <h1 className={styles.title}>Forgot password</h1>
+        <p className={styles.subtitle}>
+          We'll email you a link to reset your password.
+        </p>
 
         <form
           className={styles.form}
@@ -76,43 +73,6 @@ export default function SignIn() {
             }}
           </form.Field>
 
-          <form.Field name="password">
-            {(field) => {
-              const showErrors =
-                field.state.meta.isTouched &&
-                field.state.meta.errors.length > 0;
-
-              return (
-                <div>
-                  <label htmlFor={field.name} className={styles.label}>
-                    Password
-                  </label>
-                  <input
-                    id={field.name}
-                    name={field.name}
-                    type="password"
-                    autoComplete="current-password"
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(event) => field.handleChange(event.target.value)}
-                    aria-invalid={showErrors}
-                    className={
-                      showErrors
-                        ? `${styles.input} ${styles.inputInvalid}`
-                        : styles.input
-                    }
-                    placeholder="••••••••"
-                  />
-                  {showErrors && (
-                    <p className={styles.error}>
-                      {getErrorMessage(field.state.meta.errors[0])}
-                    </p>
-                  )}
-                </div>
-              );
-            }}
-          </form.Field>
-
           <form.Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting] as const}
           >
@@ -122,24 +82,16 @@ export default function SignIn() {
                 disabled={!canSubmit}
                 className={styles.submit}
               >
-                {isSubmitting ? "Signing in…" : "Sign in"}
+                {isSubmitting ? "Sending…" : "Submit"}
               </button>
             )}
           </form.Subscribe>
 
-          <div className={styles.footerGroup}>
-            <p className={styles.footer}>
-              <Link to="/forgot-password" className={styles.footerLink}>
-                Forgot password?
-              </Link>
-            </p>
-            <p className={styles.footer}>
-              Don't have an account?{" "}
-              <Link to="/sign-up" className={styles.footerLink}>
-                Sign up
-              </Link>
-            </p>
-          </div>
+          <p className={styles.footer}>
+            <Link to="/sign-in" className={styles.footerLink}>
+              Back to sign in
+            </Link>
+          </p>
         </form>
       </div>
     </div>

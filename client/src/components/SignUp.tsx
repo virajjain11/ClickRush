@@ -4,7 +4,7 @@ import { z } from "zod";
 import { getErrorMessage } from "../utils/formError";
 import styles from "./Auth.module.css";
 
-const signInSchema = z.object({
+const signUpSchema = z.object({
   email: z.email("Enter a valid email address"),
   password: z
     .string()
@@ -12,14 +12,14 @@ const signInSchema = z.object({
     .min(8, "Password must be at least 8 characters"),
 });
 
-export default function SignIn() {
+export default function SignUp() {
   const form = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
     validators: {
-      onChange: signInSchema,
+      onChange: signUpSchema,
     },
     onSubmit: async ({ value }) => {
       console.log(value);
@@ -29,8 +29,8 @@ export default function SignIn() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <h1 className={styles.title}>Sign in</h1>
-        <p className={styles.subtitle}>Enter your credentials to continue.</p>
+        <h1 className={styles.title}>Sign up</h1>
+        <p className={styles.subtitle}>Create an account to get started.</p>
 
         <form
           className={styles.form}
@@ -91,7 +91,7 @@ export default function SignIn() {
                     id={field.name}
                     name={field.name}
                     type="password"
-                    autoComplete="current-password"
+                    autoComplete="new-password"
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(event) => field.handleChange(event.target.value)}
@@ -122,24 +122,17 @@ export default function SignIn() {
                 disabled={!canSubmit}
                 className={styles.submit}
               >
-                {isSubmitting ? "Signing in…" : "Sign in"}
+                {isSubmitting ? "Signing up…" : "Sign up"}
               </button>
             )}
           </form.Subscribe>
 
-          <div className={styles.footerGroup}>
-            <p className={styles.footer}>
-              <Link to="/forgot-password" className={styles.footerLink}>
-                Forgot password?
-              </Link>
-            </p>
-            <p className={styles.footer}>
-              Don't have an account?{" "}
-              <Link to="/sign-up" className={styles.footerLink}>
-                Sign up
-              </Link>
-            </p>
-          </div>
+          <p className={styles.footer}>
+            Already have an account?{" "}
+            <Link to="/sign-in" className={styles.footerLink}>
+              Back to sign in
+            </Link>
+          </p>
         </form>
       </div>
     </div>
