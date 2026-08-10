@@ -1,5 +1,6 @@
 import { useForm } from "@tanstack/react-form";
 import { z } from "zod";
+import styles from "./SignIn.module.css";
 
 const signInSchema = z.object({
   email: z.email("Enter a valid email address"),
@@ -34,15 +35,13 @@ export default function SignIn() {
   });
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-      <div className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-        <h1 className="text-2xl font-semibold text-slate-900">Sign in</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Enter your credentials to continue.
-        </p>
+    <div className={styles.page}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>Sign in</h1>
+        <p className={styles.subtitle}>Enter your credentials to continue.</p>
 
         <form
-          className="mt-6 space-y-4"
+          className={styles.form}
           onSubmit={(event) => {
             event.preventDefault();
             form.handleSubmit();
@@ -51,14 +50,12 @@ export default function SignIn() {
           <form.Field name="email">
             {(field) => {
               const showErrors =
-                field.state.meta.isTouched && field.state.meta.errors.length > 0;
+                field.state.meta.isTouched &&
+                field.state.meta.errors.length > 0;
 
               return (
                 <div>
-                  <label
-                    htmlFor={field.name}
-                    className="block text-sm font-medium text-slate-700"
-                  >
+                  <label htmlFor={field.name} className={styles.label}>
                     Email
                   </label>
                   <input
@@ -70,15 +67,15 @@ export default function SignIn() {
                     onBlur={field.handleBlur}
                     onChange={(event) => field.handleChange(event.target.value)}
                     aria-invalid={showErrors}
-                    className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none focus:ring-2 ${
+                    className={
                       showErrors
-                        ? "border-red-400 focus:border-red-500 focus:ring-red-100"
-                        : "border-slate-300 focus:border-slate-500 focus:ring-slate-100"
-                    }`}
+                        ? `${styles.input} ${styles.inputInvalid}`
+                        : styles.input
+                    }
                     placeholder="you@example.com"
                   />
                   {showErrors && (
-                    <p className="mt-1 text-xs text-red-600">
+                    <p className={styles.error}>
                       {getErrorMessage(field.state.meta.errors[0])}
                     </p>
                   )}
@@ -90,14 +87,12 @@ export default function SignIn() {
           <form.Field name="password">
             {(field) => {
               const showErrors =
-                field.state.meta.isTouched && field.state.meta.errors.length > 0;
+                field.state.meta.isTouched &&
+                field.state.meta.errors.length > 0;
 
               return (
                 <div>
-                  <label
-                    htmlFor={field.name}
-                    className="block text-sm font-medium text-slate-700"
-                  >
+                  <label htmlFor={field.name} className={styles.label}>
                     Password
                   </label>
                   <input
@@ -109,15 +104,15 @@ export default function SignIn() {
                     onBlur={field.handleBlur}
                     onChange={(event) => field.handleChange(event.target.value)}
                     aria-invalid={showErrors}
-                    className={`mt-1 w-full rounded-lg border px-3 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none focus:ring-2 ${
+                    className={
                       showErrors
-                        ? "border-red-400 focus:border-red-500 focus:ring-red-100"
-                        : "border-slate-300 focus:border-slate-500 focus:ring-slate-100"
-                    }`}
+                        ? `${styles.input} ${styles.inputInvalid}`
+                        : styles.input
+                    }
                     placeholder="••••••••"
                   />
                   {showErrors && (
-                    <p className="mt-1 text-xs text-red-600">
+                    <p className={styles.error}>
                       {getErrorMessage(field.state.meta.errors[0])}
                     </p>
                   )}
@@ -133,7 +128,7 @@ export default function SignIn() {
               <button
                 type="submit"
                 disabled={!canSubmit}
-                className="w-full rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+                className={styles.submit}
               >
                 {isSubmitting ? "Signing in…" : "Sign in"}
               </button>
