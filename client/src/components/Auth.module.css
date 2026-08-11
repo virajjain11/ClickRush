@@ -1,0 +1,136 @@
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 0 16px;
+  background-color: var(--color-background);
+}
+
+.card {
+  width: 100%;
+  max-width: 384px;
+  padding: 32px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.subtitle {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-subtle);
+}
+
+.input {
+  width: 100%;
+  margin-top: 4px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--color-placeholder);
+}
+
+.input:focus {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 2px var(--color-focus-ring);
+}
+
+.inputInvalid {
+  border-color: var(--color-danger-border);
+}
+
+.inputInvalid:focus {
+  border-color: var(--color-danger-border-strong);
+  box-shadow: 0 0 0 2px var(--color-danger-ring);
+}
+
+.error {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--color-danger);
+}
+
+.success {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--color-success);
+}
+
+.submit {
+  width: 100%;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius-md);
+  background-color: var(--color-accent);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-surface);
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.submit:hover:not(:disabled) {
+  background-color: var(--color-accent-hover);
+}
+
+.submit:disabled {
+  background-color: var(--color-disabled);
+  cursor: not-allowed;
+}
+
+.footerGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.footerLink {
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+}
+
+.footerLink:focus-visible {
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 2px var(--color-focus-ring);
+  outline: none;
+}
