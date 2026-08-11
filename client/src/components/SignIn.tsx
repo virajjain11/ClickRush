@@ -1,18 +1,13 @@
 import { useForm } from "@tanstack/react-form";
 import { Link } from "react-router";
-import { z } from "zod";
+import { useSignInMutation } from "../hooks/useSignInMutation";
+import { signInSchema } from "../schemas/auth";
 import { getErrorMessage } from "../utils/formError";
 import styles from "./Auth.module.css";
 
-const signInSchema = z.object({
-  email: z.email("Enter a valid email address"),
-  password: z
-    .string()
-    .min(1, "Password is required")
-    .min(8, "Password must be at least 8 characters"),
-});
-
 export default function SignIn() {
+  const signInMutation = useSignInMutation();
+
   const form = useForm({
     defaultValues: {
       email: "",
@@ -22,7 +17,7 @@ export default function SignIn() {
       onChange: signInSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
+      await signInMutation.mutateAsync(value);
     },
   });
 
@@ -119,13 +114,19 @@ export default function SignIn() {
             {([canSubmit, isSubmitting]) => (
               <button
                 type="submit"
-                disabled={!canSubmit}
+                disabled={!canSubmit || isSubmitting}
                 className={styles.submit}
               >
                 {isSubmitting ? "Signing in…" : "Sign in"}
               </button>
             )}
           </form.Subscribe>
+
+          {signInMutation.isError && (
+            <p className={styles.error} role="alert">
+              {signInMutation.error.message}
+            </p>
+          )}
 
           <div className={styles.footerGroup}>
             <p className={styles.footer}>

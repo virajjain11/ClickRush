@@ -1,14 +1,13 @@
 import { useForm } from "@tanstack/react-form";
 import { Link } from "react-router";
-import { z } from "zod";
+import { useForgotPasswordMutation } from "../hooks/useForgotPasswordMutation";
+import { forgotPasswordSchema } from "../schemas/auth";
 import { getErrorMessage } from "../utils/formError";
 import styles from "./Auth.module.css";
 
-const forgotPasswordSchema = z.object({
-  email: z.email("Enter a valid email address"),
-});
-
 export default function ForgotPassword() {
+  const forgotPasswordMutation = useForgotPasswordMutation();
+
   const form = useForm({
     defaultValues: {
       email: "",
@@ -17,7 +16,7 @@ export default function ForgotPassword() {
       onChange: forgotPasswordSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
+      await forgotPasswordMutation.mutateAsync(value);
     },
   });
 
@@ -79,13 +78,25 @@ export default function ForgotPassword() {
             {([canSubmit, isSubmitting]) => (
               <button
                 type="submit"
-                disabled={!canSubmit}
+                disabled={!canSubmit || isSubmitting}
                 className={styles.submit}
               >
                 {isSubmitting ? "Sending…" : "Submit"}
               </button>
             )}
           </form.Subscribe>
+
+          {forgotPasswordMutation.isSuccess && (
+            <p className={styles.success} role="status">
+              {forgotPasswordMutation.data.message}
+            </p>
+          )}
+
+          {forgotPasswordMutation.isError && (
+            <p className={styles.error} role="alert">
+              {forgotPasswordMutation.error.message}
+            </p>
+          )}
 
           <p className={styles.footer}>
             <Link to="/sign-in" className={styles.footerLink}>
