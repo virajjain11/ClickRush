@@ -12,6 +12,14 @@ export async function findByEmail(email) {
   return user ? { ...user } : null;
 }
 
+export async function findById(id) {
+  const user = [...usersByEmail.values()].find(
+    (candidate) => candidate.id === id,
+  );
+
+  return user ? { ...user } : null;
+}
+
 export async function create({ email, name, passwordHash }) {
   const user = {
     id: randomUUID(),

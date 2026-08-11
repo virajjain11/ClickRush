@@ -1,15 +1,15 @@
 import * as authService from "../services/auth.service.js";
 
 export async function signUp(req, res) {
-  const user = await authService.signUp(req.body);
+  const result = await authService.signUp(req.body);
 
-  res.status(201).json({ user });
+  res.status(201).json(result);
 }
 
 export async function signIn(req, res) {
-  const user = await authService.signIn(req.body);
+  const result = await authService.signIn(req.body);
 
-  res.status(200).json({ user });
+  res.status(200).json(result);
 }
 
 export async function forgotPassword(req, res) {

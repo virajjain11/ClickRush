@@ -1,17 +1,10 @@
 import { randomBytes, randomInt } from "node:crypto";
 import { env, isProduction } from "../config/env.js";
 import * as userRepository from "../repositories/user.repository.js";
+import { signAccessToken } from "../utils/accessToken.js";
 import { ApiError } from "../utils/ApiError.js";
 import { hashPassword, verifyPassword } from "../utils/password.js";
-
-function toPublicUser(user) {
-  return {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    createdAt: user.createdAt,
-  };
-}
+import { toPublicUser } from "../utils/publicUser.js";
 
 export async function signUp({ email, password }) {
   const existingUser = await userRepository.findByEmail(email);
@@ -24,8 +17,9 @@ export async function signUp({ email, password }) {
   const randomSuffix = randomInt(1000).toString().padStart(3, "0");
   const name = `${emailName}${randomSuffix}`; // Will this generate any existing names? need to check
   const user = await userRepository.create({ email, name, passwordHash });
+  const accessToken = await signAccessToken(user.id);
 
-  return toPublicUser(user);
+  return { user: toPublicUser(user), accessToken };
 }
 
 export async function signIn({ email, password }) {
@@ -42,7 +36,9 @@ export async function signIn({ email, password }) {
     throw ApiError.unauthorized("Invalid email or password");
   }
 
-  return toPublicUser(user);
+  const accessToken = await signAccessToken(user.id);
+
+  return { user: toPublicUser(user), accessToken };
 }
 
 export async function requestPasswordReset({ email }) {
