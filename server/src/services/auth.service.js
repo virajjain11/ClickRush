@@ -50,10 +50,11 @@ export async function requestPasswordReset({ email }) {
       Date.now() + env.passwordResetTokenTtlMinutes * 60 * 1000,
     ).toISOString();
 
-    await userRepository.update(email, {
+    await userRepository.setPasswordResetToken(
+      user.id,
       passwordResetToken,
-      passwordResetTokenExpiresAt: expiresAt,
-    });
+      expiresAt,
+    );
 
     if (!isProduction) {
       console.log(
