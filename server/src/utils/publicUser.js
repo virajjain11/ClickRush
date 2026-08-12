@@ -1,8 +1,10 @@
 export function toPublicUser(user) {
   return {
     id: user.id,
+    username: user.username,
     name: user.name,
     email: user.email,
+    role: user.role,
     createdAt: user.createdAt,
   };
 }
