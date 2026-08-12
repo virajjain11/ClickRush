@@ -1,5 +1,5 @@
 import { env } from "../config/env";
-import { getAccessToken } from "./authStorage";
+import { clearAccessToken, getAccessToken } from "./authStorage";
 
 type ApiErrorBody = {
   error?: {
@@ -40,11 +40,12 @@ export async function apiRequest<TResponse>(
   }: RequestOptions = {},
 ): Promise<TResponse> {
   let response: Response;
+  const accessToken = getAccessToken();
 
   try {
     response = await fetch(`${env.apiUrl}${path}`, {
       method,
-      headers: buildHeaders(body),
+      headers: buildHeaders(body, accessToken),
       body: body === undefined ? undefined : JSON.stringify(body),
       signal,
     });
@@ -58,6 +59,14 @@ export async function apiRequest<TResponse>(
   const payload = await parseJsonBody(response);
 
   if (!response.ok) {
+    if (
+      response.status === 401 &&
+      accessToken &&
+      accessToken === getAccessToken()
+    ) {
+      clearAccessToken();
+    }
+
     const { error } = (payload ?? {}) as ApiErrorBody;
     throw new ApiError(
       error?.message ?? fallbackErrorMessage,
@@ -71,14 +80,16 @@ export async function apiRequest<TResponse>(
 
 // Every request from this client targets our own API, so the access token can
 // be attached whenever one is stored without leaking it to a third party.
-function buildHeaders(body: unknown): HeadersInit {
+function buildHeaders(
+  body: unknown,
+  accessToken: string | null,
+): HeadersInit {
   const headers: Record<string, string> = {};
 
   if (body !== undefined) {
     headers["Content-Type"] = "application/json";
   }
 
-  const accessToken = getAccessToken();
   if (accessToken) {
     headers.Authorization = `Bearer ${accessToken}`;
   }

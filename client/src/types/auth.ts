@@ -1,7 +1,9 @@
 export type AuthenticatedUser = {
   id: string;
+  username: string;
   name: string;
   email: string;
+  role: "user" | "admin";
   createdAt: string;
 };
 
