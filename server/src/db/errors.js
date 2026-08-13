@@ -3,12 +3,12 @@ import { ApiError } from "../utils/ApiError.js";
 const UNIQUE_VIOLATION = "23505";
 
 /**
- * Names Postgres gives the unique indexes behind `users.email` and
- * `users.username`. Both collisions arrive as code 23505, so callers that treat
- * them differently — signup retries a taken username but must not retry a taken
- * email — have to compare the constraint name. Keep in step with the migration.
+ * Names Postgres gives unique constraints used by service-level recovery.
+ * Collisions all arrive as code 23505, so callers have to compare the
+ * constraint name. Keep in step with the migrations.
  */
 export const constraints = {
+  gamesPkey: "games_pkey",
   usersEmail: "users_email_key",
   usersUsername: "users_username_key",
 };
