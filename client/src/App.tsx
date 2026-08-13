@@ -8,6 +8,7 @@ import {
 } from "react-router";
 import ForgotPassword from "./components/ForgotPassword";
 import Home from "./components/Home";
+import Play from "./components/game/Play";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicOnlyRoute from "./components/PublicOnlyRoute";
 import SignIn from "./components/SignIn";
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
       </Route>
       <Route element={<ProtectedRoute />}>
         <Route path="home" element={<Home />} />
+        <Route path="play" element={<Play />} />
       </Route>
       <Route path="*" element={<Navigate to="/home" replace />} />
     </Route>,

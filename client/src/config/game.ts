@@ -1,0 +1,3 @@
+export const CLASSIC_DURATION_MS = 60_000;
+export const COUNTDOWN_DURATION_MS = 3_000;
+export const GAME_TIMER_INTERVAL_MS = 50;

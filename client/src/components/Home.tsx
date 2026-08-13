@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router";
 import { useCurrentUserQuery } from "../hooks/useCurrentUserQuery";
 import { endSession } from "../lib/authSession";
 import styles from "./Home.module.css";
@@ -83,12 +84,13 @@ export default function Home() {
         </section>
 
         <div className={styles.cards}>
-          <section className={styles.card}>
+          <Link to="/play" className={`${styles.card} ${styles.cardLink}`}>
             <h2 className={styles.cardTitle}>Quick match</h2>
             <p className={styles.cardBody}>
-              Jump into a 30 second round against a random opponent.
+              Test your speed in a 60 second classic round.
             </p>
-          </section>
+            <span className={styles.cardAction}>Play now →</span>
+          </Link>
 
           <section className={styles.card}>
             <h2 className={styles.cardTitle}>Leaderboard</h2>
