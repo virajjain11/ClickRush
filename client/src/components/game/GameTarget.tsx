@@ -74,7 +74,6 @@ export default function GameTarget({
         <div className={styles.runningHud}>
           <ClickCounter score={score} />
           <span className={styles.clickLabel}>clicks</span>
-          <GameTimer remainingMs={remainingMs} />
         </div>
       )}
 
@@ -101,6 +100,12 @@ export default function GameTarget({
                 ? "Starting…"
                 : "Play again")}
         </button>
+      )}
+
+      {phase === "running" && (
+        <div className={styles.timerSlot}>
+          <GameTimer remainingMs={remainingMs} />
+        </div>
       )}
     </div>
   );
