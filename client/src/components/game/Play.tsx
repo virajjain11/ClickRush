@@ -1,12 +1,70 @@
+import { useCallback, useEffect, useRef } from "react";
 import { Link } from "react-router";
-import { CLASSIC_DURATION_MS } from "../../config/game";
 import { useClassicGame } from "../../hooks/useClassicGame";
+import { useFinishGameMutation } from "../../hooks/useFinishGameMutation";
+import { useStartGameMutation } from "../../hooks/useStartGameMutation";
 import GameTarget from "./GameTarget";
 import styles from "./Play.module.css";
 
 export default function Play() {
   const game = useClassicGame();
-  const clicksPerSecond = game.score / (CLASSIC_DURATION_MS / 1_000);
+  const startGameMutation = useStartGameMutation();
+  const {
+    mutate: finishGame,
+    reset: resetFinishGame,
+    error: finishError,
+    isError: isFinishError,
+    isPending: isFinishPending,
+    isSuccess: isFinishSuccess,
+  } = useFinishGameMutation();
+  const submittedTokenRef = useRef<string | null>(null);
+  const { confirmSavedScore, gameSessionToken, score } = game;
+  const clicksPerSecond = game.score / (game.roundDurationMs / 1_000);
+
+  const submitScore = useCallback(() => {
+    if (!gameSessionToken) {
+      return;
+    }
+
+    finishGame(
+      {
+        gameSessionToken,
+        score,
+      },
+      {
+        onSuccess: ({ game: savedGame }) => {
+          confirmSavedScore(savedGame.score);
+        },
+      },
+    );
+  }, [confirmSavedScore, finishGame, gameSessionToken, score]);
+
+  useEffect(() => {
+    if (
+      game.phase !== "finished" ||
+      !gameSessionToken ||
+      submittedTokenRef.current === gameSessionToken
+    ) {
+      return;
+    }
+
+    submittedTokenRef.current = gameSessionToken;
+    submitScore();
+  }, [game.phase, gameSessionToken, submitScore]);
+
+  const handleStart = async () => {
+    try {
+      const session = await startGameMutation.mutateAsync({ mode: "classic" });
+
+      resetFinishGame();
+      game.beginRound(session);
+    } catch {
+      // The mutation error is rendered below; the current phase stays put.
+    }
+  };
+
+  const isReplayDisabled =
+    startGameMutation.isPending || !isFinishSuccess;
 
   return (
     <div className={styles.page}>
@@ -30,7 +88,10 @@ export default function Play() {
           score={game.score}
           countdown={game.countdown}
           remainingMs={game.remainingMs}
-          onStart={game.startCountdown}
+          isStarting={startGameMutation.isPending}
+          isSaving={isFinishPending}
+          isReplayDisabled={isReplayDisabled}
+          onStart={handleStart}
           onScore={game.addClick}
         />
 
@@ -66,10 +127,41 @@ export default function Play() {
                   <span>personal best</span>
                 </p>
               </div>
+
+              {isFinishPending && (
+                <p className={styles.saveStatus}>Saving score…</p>
+              )}
+
+              {isFinishSuccess && (
+                <p className={styles.saveStatus}>Score saved</p>
+              )}
+
+              {isFinishError && (
+                <div className={styles.saveError} role="alert">
+                  <p>{getErrorMessage(finishError)}</p>
+                  <button
+                    type="button"
+                    className={styles.retry}
+                    onClick={submitScore}
+                  >
+                    Try saving again
+                  </button>
+                </div>
+              )}
             </section>
+          )}
+
+          {startGameMutation.isError && (
+            <p className={styles.startError} role="alert">
+              {getErrorMessage(startGameMutation.error)}
+            </p>
           )}
         </div>
       </main>
     </div>
   );
+}
+
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : "Something went wrong";
 }

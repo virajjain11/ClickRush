@@ -4,10 +4,8 @@ import {
   COUNTDOWN_DURATION_MS,
   GAME_TIMER_INTERVAL_MS,
 } from "../config/game";
-import {
-  getClassicPersonalBest,
-  setClassicPersonalBest,
-} from "../lib/gameStorage";
+import { getClassicPersonalBest } from "../lib/gameStorage";
+import type { StartGameResponse } from "../types/game";
 
 export type GamePhase = "idle" | "countdown" | "running" | "finished";
 
@@ -18,6 +16,8 @@ type GameState = {
   remainingMs: number;
   personalBest: number;
   isNewPersonalBest: boolean;
+  gameSessionToken: string | null;
+  roundDurationMs: number;
 };
 
 const INITIAL_COUNTDOWN = COUNTDOWN_DURATION_MS / 1_000;
@@ -33,9 +33,11 @@ export function useClassicGame() {
     remainingMs: CLASSIC_DURATION_MS,
     personalBest: getClassicPersonalBest(),
     isNewPersonalBest: false,
+    gameSessionToken: null,
+    roundDurationMs: CLASSIC_DURATION_MS,
   }));
 
-  const startCountdown = useCallback(() => {
+  const beginRound = useCallback((session: StartGameResponse) => {
     if (
       phaseRef.current !== "idle" &&
       phaseRef.current !== "finished"
@@ -50,9 +52,30 @@ export function useClassicGame() {
       phase: "countdown",
       score: 0,
       countdown: INITIAL_COUNTDOWN,
-      remainingMs: CLASSIC_DURATION_MS,
+      remainingMs: session.durationMs,
       isNewPersonalBest: false,
+      gameSessionToken: session.gameSessionToken,
+      roundDurationMs: session.durationMs,
     }));
+  }, []);
+
+  const confirmSavedScore = useCallback((savedScore: number) => {
+    if (phaseRef.current !== "finished") {
+      return;
+    }
+
+    scoreRef.current = savedScore;
+    setState((current) => {
+      const personalBest = Math.max(current.personalBest, savedScore);
+
+      return {
+        ...current,
+        score: savedScore,
+        personalBest,
+        isNewPersonalBest:
+          savedScore > 0 && savedScore > current.personalBest,
+      };
+    });
   }, []);
 
   const addClick = useCallback(() => {
@@ -75,12 +98,13 @@ export function useClassicGame() {
 
       if (remainingMs <= 0) {
         phaseRef.current = "running";
-        roundDeadlineRef.current = performance.now() + CLASSIC_DURATION_MS;
+        roundDeadlineRef.current =
+          performance.now() + state.roundDurationMs;
         setState((current) => ({
           ...current,
           phase: "running",
           countdown: 0,
-          remainingMs: CLASSIC_DURATION_MS,
+          remainingMs: state.roundDurationMs,
         }));
         return;
       }
@@ -94,7 +118,7 @@ export function useClassicGame() {
     }, GAME_TIMER_INTERVAL_MS);
 
     return () => window.clearInterval(intervalId);
-  }, [state.phase]);
+  }, [state.phase, state.roundDurationMs]);
 
   useEffect(() => {
     if (state.phase !== "running") {
@@ -111,24 +135,13 @@ export function useClassicGame() {
         phaseRef.current = "finished";
         const finalScore = scoreRef.current;
 
-        setState((current) => {
-          const personalBest = Math.max(current.personalBest, finalScore);
-          const isNewPersonalBest =
-            finalScore > 0 && finalScore > current.personalBest;
-
-          if (isNewPersonalBest) {
-            setClassicPersonalBest(personalBest);
-          }
-
-          return {
-            ...current,
-            phase: "finished",
-            score: finalScore,
-            remainingMs: 0,
-            personalBest,
-            isNewPersonalBest,
-          };
-        });
+        setState((current) => ({
+          ...current,
+          phase: "finished",
+          score: finalScore,
+          remainingMs: 0,
+          isNewPersonalBest: false,
+        }));
         return;
       }
 
@@ -150,6 +163,7 @@ export function useClassicGame() {
   return {
     ...state,
     addClick,
-    startCountdown,
+    beginRound,
+    confirmSavedScore,
   };
 }

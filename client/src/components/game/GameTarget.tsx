@@ -9,6 +9,9 @@ type GameTargetProps = {
   score: number;
   countdown: number;
   remainingMs: number;
+  isStarting: boolean;
+  isSaving: boolean;
+  isReplayDisabled: boolean;
   onStart: () => void;
   onScore: () => void;
 };
@@ -18,10 +21,21 @@ export default function GameTarget({
   score,
   countdown,
   remainingMs,
+  isStarting,
+  isSaving,
+  isReplayDisabled,
   onStart,
   onScore,
 }: GameTargetProps) {
+  const isDisabled =
+    (phase === "idle" && isStarting) ||
+    (phase === "finished" && isReplayDisabled);
+
   const activate = () => {
+    if (isDisabled) {
+      return;
+    }
+
     if (phase === "running") {
       onScore();
     } else if (phase === "idle" || phase === "finished") {
@@ -75,11 +89,17 @@ export default function GameTarget({
           onPointerDown={handlePointerDown}
           onKeyDown={handleKeyDown}
           onContextMenu={(event) => event.preventDefault()}
+          disabled={isDisabled}
           aria-label={getTargetLabel(phase)}
         >
-          {phase === "idle" && "Start"}
+          {phase === "idle" && (isStarting ? "Starting…" : "Start")}
           {phase === "running" && "Click"}
-          {phase === "finished" && "Play again"}
+          {phase === "finished" &&
+            (isSaving
+              ? "Saving…"
+              : isStarting
+                ? "Starting…"
+                : "Play again")}
         </button>
       )}
     </div>
