@@ -11,3 +11,21 @@ export async function finishGame(req, res) {
 
   res.status(200).json(result);
 }
+
+export async function getHistory(req, res) {
+  const result = await gamesService.getHistory(
+    req.user.id,
+    req.validatedQuery,
+  );
+
+  res.status(200).json(result);
+}
+
+export async function getLeaderboard(req, res) {
+  const result = await gamesService.getLeaderboard(
+    req.user.id,
+    req.validatedQuery,
+  );
+
+  res.status(200).json(result);
+}
