@@ -6,6 +6,10 @@ export const endpoints = {
     signIn: `${API_PREFIX}/auth/sign-in`,
     forgotPassword: `${API_PREFIX}/auth/forgot-password`,
   },
+  games: {
+    start: `${API_PREFIX}/games`,
+    finish: `${API_PREFIX}/games/finish`,
+  },
   users: {
     me: `${API_PREFIX}/users/me`,
   },

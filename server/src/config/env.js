@@ -13,6 +13,10 @@ const envSchema = z.object({
     ),
   JWT_ACCESS_TOKEN_SECRET: z.string().min(32, "Must be at least 32 characters"),
   JWT_ACCESS_TOKEN_TTL: z.string().min(1, "Required").default("1h"),
+  JWT_GAME_SESSION_SECRET: z
+    .string()
+    .min(32, "Must be at least 32 characters"),
+  JWT_GAME_SESSION_TTL: z.string().min(1, "Required").default("10m"),
   PASSWORD_RESET_TOKEN_TTL_MINUTES: z.coerce
     .number()
     .int()
@@ -43,6 +47,8 @@ export const env = {
   databaseUrl: result.data.DATABASE_URL,
   jwtAccessTokenSecret: result.data.JWT_ACCESS_TOKEN_SECRET,
   jwtAccessTokenTtl: result.data.JWT_ACCESS_TOKEN_TTL,
+  jwtGameSessionSecret: result.data.JWT_GAME_SESSION_SECRET,
+  jwtGameSessionTtl: result.data.JWT_GAME_SESSION_TTL,
   passwordResetTokenTtlMinutes: result.data.PASSWORD_RESET_TOKEN_TTL_MINUTES,
 };
 
