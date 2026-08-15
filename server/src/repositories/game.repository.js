@@ -49,3 +49,98 @@ export async function create({
 
   return toGame(rows[0]);
 }
+
+export async function findHistoryByUser({ userId, mode, limit }) {
+  const { rows } = await query(
+    `
+      SELECT ${GAME_COLUMNS}
+      FROM games
+      WHERE user_id = $1 AND mode = $2
+      ORDER BY started_at DESC
+      LIMIT $3
+    `,
+    [userId, mode, limit],
+  );
+
+  return rows.map(toGame);
+}
+
+export async function summarizeByUser({ userId, mode }) {
+  const { rows } = await query(
+    `
+      SELECT
+        COUNT(*)::int AS "gamesPlayed",
+        COALESCE(MAX(score), 0)::int AS "personalBest",
+        COALESCE(AVG(score), 0) AS "averageScore"
+      FROM games
+      WHERE user_id = $1 AND mode = $2
+    `,
+    [userId, mode],
+  );
+
+  const summary = rows[0];
+
+  return {
+    gamesPlayed: summary.gamesPlayed,
+    personalBest: summary.personalBest,
+    averageScore: Number(summary.averageScore),
+  };
+}
+
+export async function findPeriodBests({
+  mode,
+  start,
+  end,
+  limit,
+  viewerUserId,
+}) {
+  const { rows } = await query(
+    `
+      WITH bests AS (
+        SELECT DISTINCT ON (g.user_id)
+          g.id,
+          g.user_id,
+          g.score,
+          g.ended_at
+        FROM games g
+        WHERE g.mode = $1
+          AND g.ended_at >= $2
+          AND g.ended_at < $3
+        ORDER BY g.user_id, g.score DESC, g.ended_at ASC, g.id ASC
+      ),
+      ranked AS (
+        SELECT
+          b.id AS "gameId",
+          b.user_id AS "userId",
+          u.name,
+          u.username,
+          b.score,
+          b.ended_at AS "endedAt",
+          ROW_NUMBER() OVER (
+            ORDER BY b.score DESC, b.ended_at ASC, b.id ASC
+          ) AS rank
+        FROM bests b
+        JOIN users u ON u.id = b.user_id
+      )
+      SELECT *
+      FROM ranked
+      WHERE rank <= $4 OR "userId" = $5
+      ORDER BY rank ASC
+    `,
+    [mode, start, end, limit, viewerUserId],
+  );
+
+  return rows.map(toLeaderboardEntry);
+}
+
+function toLeaderboardEntry(row) {
+  return {
+    rank: Number(row.rank),
+    gameId: row.gameId,
+    userId: row.userId,
+    name: row.name,
+    username: row.username,
+    score: row.score,
+    endedAt: row.endedAt.toISOString(),
+  };
+}

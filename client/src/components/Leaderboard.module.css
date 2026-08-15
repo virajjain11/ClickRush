@@ -1,0 +1,245 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 64px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.homeLink {
+  border-radius: var(--radius-md);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.homeLink:focus-visible {
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 3px;
+}
+
+.mode {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.subtitle {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.periods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.period {
+  padding: 8px 14px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.period:hover {
+  background-color: var(--color-background);
+}
+
+.period:focus-visible {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 2px var(--color-focus-ring);
+  outline: none;
+}
+
+.periodActive {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-surface);
+}
+
+.periodActive:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.card {
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.window {
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-subtle);
+}
+
+.status {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 12px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table th {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.table td {
+  font-size: 14px;
+}
+
+.table tr:last-child td {
+  border-bottom: 0;
+}
+
+.rank,
+.score {
+  font-variant-numeric: tabular-nums;
+}
+
+.score {
+  font-weight: 700;
+  text-align: right;
+}
+
+.table th:last-child,
+.table td:last-child {
+  text-align: right;
+}
+
+.playerName {
+  display: block;
+  font-weight: 600;
+}
+
+.username {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.you {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background-color: var(--color-focus-ring);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.viewerRow {
+  background-color: rgb(241 245 249 / 0.8);
+}
+
+.viewerStatus {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.errorGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.error {
+  font-size: 14px;
+  color: var(--color-danger);
+}
+
+.retry {
+  padding: 8px 16px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.retry:hover:not(:disabled) {
+  background-color: var(--color-background);
+}
+
+.retry:focus-visible {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 2px var(--color-focus-ring);
+  outline: none;
+}
+
+.retry:disabled {
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 520px) {
+  .header,
+  .main {
+    padding-inline: 16px;
+  }
+}

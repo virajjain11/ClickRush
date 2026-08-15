@@ -9,6 +9,8 @@ export const endpoints = {
   games: {
     start: `${API_PREFIX}/games`,
     finish: `${API_PREFIX}/games/finish`,
+    history: `${API_PREFIX}/games/history`,
+    leaderboard: `${API_PREFIX}/games/leaderboard`,
   },
   users: {
     me: `${API_PREFIX}/users/me`,

@@ -92,19 +92,21 @@ export default function Home() {
             <span className={styles.cardAction}>Play now →</span>
           </Link>
 
-          <section className={styles.card}>
+          <Link to="/leaderboard" className={`${styles.card} ${styles.cardLink}`}>
             <h2 className={styles.cardTitle}>Leaderboard</h2>
             <p className={styles.cardBody}>
               See how your best score stacks up against everyone else.
             </p>
-          </section>
+            <span className={styles.cardAction}>View board →</span>
+          </Link>
 
-          <section className={styles.card}>
+          <Link to="/stats" className={`${styles.card} ${styles.cardLink}`}>
             <h2 className={styles.cardTitle}>Your stats</h2>
             <p className={styles.cardBody}>
-              Track clicks per second, accuracy, and win streaks over time.
+              Review your personal best, recent rounds, and average score.
             </p>
-          </section>
+            <span className={styles.cardAction}>View stats →</span>
+          </Link>
         </div>
       </main>
     </div>

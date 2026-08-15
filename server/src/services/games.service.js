@@ -1,5 +1,10 @@
 import { randomUUID } from "node:crypto";
-import { getGameModeConfig } from "../constants/game.js";
+import {
+  HISTORY_LIMIT,
+  LEADERBOARD_LIMIT,
+  LEADERBOARD_TIMEZONE,
+  getGameModeConfig,
+} from "../constants/game.js";
 import { constraints, isUniqueViolation } from "../db/errors.js";
 import * as gameRepository from "../repositories/game.repository.js";
 import { ApiError } from "../utils/ApiError.js";
@@ -8,6 +13,7 @@ import {
   signGameSessionToken,
   verifyGameSessionToken,
 } from "../utils/gameSessionToken.js";
+import { getLeaderboardWindow } from "../utils/leaderboardWindow.js";
 
 const INVALID_SESSION_MESSAGE = "Invalid or expired game session";
 
@@ -87,6 +93,91 @@ export async function finishGame(userId, { gameSessionToken, score }) {
 
     return { game: existingGame };
   }
+}
+
+export async function getHistory(userId, { mode }) {
+  const config = getGameModeConfig(mode);
+  if (!config) {
+    throw ApiError.badRequest("Unsupported game mode");
+  }
+
+  const [summary, games] = await Promise.all([
+    gameRepository.summarizeByUser({ userId, mode }),
+    gameRepository.findHistoryByUser({
+      userId,
+      mode,
+      limit: HISTORY_LIMIT,
+    }),
+  ]);
+
+  return {
+    mode,
+    durationMs: config.durationMs,
+    personalBest: summary.personalBest,
+    gamesPlayed: summary.gamesPlayed,
+    averageScore: roundAverageScore(summary.averageScore),
+    games,
+  };
+}
+
+export async function getLeaderboard(userId, { mode, period }) {
+  const config = getGameModeConfig(mode);
+  if (!config) {
+    throw ApiError.badRequest("Unsupported game mode");
+  }
+
+  const window = getLeaderboardWindow(period);
+  if (!window) {
+    throw ApiError.badRequest("Unsupported leaderboard period");
+  }
+
+  const rows = await gameRepository.findPeriodBests({
+    mode,
+    start: window.start,
+    end: window.end,
+    limit: LEADERBOARD_LIMIT,
+    viewerUserId: userId,
+  });
+
+  const entries = rows
+    .filter((row) => row.rank <= LEADERBOARD_LIMIT)
+    .map((row) => toPublicLeaderboardEntry(row, userId));
+  const viewerRow = rows.find((row) => row.userId === userId);
+
+  return {
+    mode,
+    period,
+    timezone: LEADERBOARD_TIMEZONE,
+    window,
+    entries,
+    viewer: viewerRow ? toViewerStanding(viewerRow) : null,
+  };
+}
+
+function toPublicLeaderboardEntry(row, viewerUserId) {
+  return {
+    rank: row.rank,
+    gameId: row.gameId,
+    userId: row.userId,
+    name: row.name,
+    username: row.username,
+    score: row.score,
+    endedAt: row.endedAt,
+    isViewer: row.userId === viewerUserId,
+  };
+}
+
+function toViewerStanding(row) {
+  return {
+    rank: row.rank,
+    score: row.score,
+    endedAt: row.endedAt,
+    gameId: row.gameId,
+  };
+}
+
+function roundAverageScore(value) {
+  return Math.round(value * 10) / 10;
 }
 
 async function verifySessionToken(token) {

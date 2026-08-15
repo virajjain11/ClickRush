@@ -2,6 +2,16 @@ export const GAME_MODES = Object.freeze({
   CLASSIC: "classic",
 });
 
+export const LEADERBOARD_PERIODS = Object.freeze({
+  DAILY: "daily",
+  WEEKLY: "weekly",
+  MONTHLY: "monthly",
+});
+
+export const LEADERBOARD_TIMEZONE = "UTC";
+export const LEADERBOARD_LIMIT = 10;
+export const HISTORY_LIMIT = 20;
+
 export const GAME_MODE_CONFIG = Object.freeze({
   [GAME_MODES.CLASSIC]: Object.freeze({
     durationMs: 60_000,
