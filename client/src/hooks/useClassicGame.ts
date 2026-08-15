@@ -14,7 +14,7 @@ type GameState = {
   score: number;
   countdown: number;
   remainingMs: number;
-  personalBest: number;
+  confirmedScore: number | null;
   isNewPersonalBest: boolean;
   gameSessionToken: string | null;
   roundDurationMs: number;
@@ -22,20 +22,23 @@ type GameState = {
 
 const INITIAL_COUNTDOWN = COUNTDOWN_DURATION_MS / 1_000;
 
-export function useClassicGame() {
+export function useClassicGame(personalBestFromServer?: number) {
   const scoreRef = useRef(0);
   const phaseRef = useRef<GamePhase>("idle");
   const roundDeadlineRef = useRef(0);
+  const [cachedPersonalBest] = useState(getClassicPersonalBest);
   const [state, setState] = useState<GameState>(() => ({
     phase: "idle",
     score: 0,
     countdown: INITIAL_COUNTDOWN,
     remainingMs: CLASSIC_DURATION_MS,
-    personalBest: getClassicPersonalBest(),
+    confirmedScore: null,
     isNewPersonalBest: false,
     gameSessionToken: null,
     roundDurationMs: CLASSIC_DURATION_MS,
   }));
+  const baselineBest = personalBestFromServer ?? cachedPersonalBest;
+  const personalBest = Math.max(baselineBest, state.confirmedScore ?? 0);
 
   const beginRound = useCallback((session: StartGameResponse) => {
     if (
@@ -66,17 +69,19 @@ export function useClassicGame() {
 
     scoreRef.current = savedScore;
     setState((current) => {
-      const personalBest = Math.max(current.personalBest, savedScore);
+      const previousBest = Math.max(
+        baselineBest,
+        current.confirmedScore ?? 0,
+      );
 
       return {
         ...current,
         score: savedScore,
-        personalBest,
-        isNewPersonalBest:
-          savedScore > 0 && savedScore > current.personalBest,
+        confirmedScore: Math.max(current.confirmedScore ?? 0, savedScore),
+        isNewPersonalBest: savedScore > 0 && savedScore > previousBest,
       };
     });
-  }, []);
+  }, [baselineBest]);
 
   const addClick = useCallback(() => {
     if (phaseRef.current !== "running") {
@@ -161,7 +166,14 @@ export function useClassicGame() {
   }, [state.phase]);
 
   return {
-    ...state,
+    phase: state.phase,
+    score: state.score,
+    countdown: state.countdown,
+    remainingMs: state.remainingMs,
+    isNewPersonalBest: state.isNewPersonalBest,
+    gameSessionToken: state.gameSessionToken,
+    roundDurationMs: state.roundDurationMs,
+    personalBest,
     addClick,
     beginRound,
     confirmSavedScore,

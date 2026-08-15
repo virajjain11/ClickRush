@@ -19,6 +19,7 @@ export function useFinishGameMutation() {
         queryKeys.games.personalBest(game.mode),
         personalBest,
       );
+      void queryClient.invalidateQueries({ queryKey: queryKeys.games.all });
     },
   });
 }

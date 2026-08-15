@@ -2,12 +2,14 @@ import { useCallback, useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useClassicGame } from "../../hooks/useClassicGame";
 import { useFinishGameMutation } from "../../hooks/useFinishGameMutation";
+import { useGameHistoryQuery } from "../../hooks/useGameHistoryQuery";
 import { useStartGameMutation } from "../../hooks/useStartGameMutation";
 import GameTarget from "./GameTarget";
 import styles from "./Play.module.css";
 
 export default function Play() {
-  const game = useClassicGame();
+  const historyQuery = useGameHistoryQuery("classic");
+  const game = useClassicGame(historyQuery.data?.personalBest);
   const startGameMutation = useStartGameMutation();
   const {
     mutate: finishGame,
