@@ -5,6 +5,7 @@ export const endpoints = {
     signUp: `${API_PREFIX}/auth/sign-up`,
     signIn: `${API_PREFIX}/auth/sign-in`,
     forgotPassword: `${API_PREFIX}/auth/forgot-password`,
+    google: `${API_PREFIX}/auth/google`,
   },
   games: {
     start: `${API_PREFIX}/games`,
