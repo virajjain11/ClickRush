@@ -29,11 +29,80 @@
   color: var(--color-text-muted);
 }
 
-.form {
+.form,
+.fields {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.form {
   margin-top: 24px;
+}
+
+.googleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.googleButton {
+  width: 100%;
+  min-height: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.googleButton[hidden] {
+  display: none;
+}
+
+.googleFallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 16px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.googleFallback:hover:not(:disabled) {
+  background-color: var(--color-background);
+}
+
+.googleFallback:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.googleMark {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-border);
 }
 
 .label {

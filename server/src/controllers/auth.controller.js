@@ -19,3 +19,9 @@ export async function forgotPassword(req, res) {
     message: "A reset link has been sent.",
   });
 }
+
+export async function signInWithGoogle(req, res) {
+  const result = await authService.signInWithGoogle(req.body);
+
+  res.status(200).json(result);
+}

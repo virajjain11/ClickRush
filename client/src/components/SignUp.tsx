@@ -4,6 +4,7 @@ import { useSignUpMutation } from "../hooks/useSignUpMutation";
 import { signUpSchema } from "../schemas/auth";
 import { getErrorMessage } from "../utils/formError";
 import styles from "./Auth.module.css";
+import GoogleSignInButton from "./GoogleSignInButton";
 
 export default function SignUp() {
   const signUpMutation = useSignUpMutation();
@@ -27,13 +28,16 @@ export default function SignUp() {
         <h1 className={styles.title}>Sign up</h1>
         <p className={styles.subtitle}>Create an account to get started.</p>
 
-        <form
-          className={styles.form}
-          onSubmit={(event) => {
-            event.preventDefault();
-            form.handleSubmit();
-          }}
-        >
+        <div className={styles.form}>
+          <GoogleSignInButton text="signup_with" />
+
+          <form
+            className={styles.fields}
+            onSubmit={(event) => {
+              event.preventDefault();
+              form.handleSubmit();
+            }}
+          >
           <form.Field name="email">
             {(field) => {
               const showErrors =
@@ -134,7 +138,8 @@ export default function SignUp() {
               Back to sign in
             </Link>
           </p>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );

@@ -23,6 +23,14 @@ export function signIn(values: SignInValues): Promise<AuthResponse> {
   });
 }
 
+export function signInWithGoogle(idToken: string): Promise<AuthResponse> {
+  return apiRequest<AuthResponse>(endpoints.auth.google, {
+    method: "POST",
+    body: { idToken },
+    fallbackErrorMessage: "Unable to sign you in with Google",
+  });
+}
+
 export function forgotPassword(
   values: ForgotPasswordValues,
 ): Promise<ForgotPasswordResponse> {

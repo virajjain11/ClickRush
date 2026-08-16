@@ -6,6 +6,7 @@ const USER_COLUMNS = `
   username,
   name,
   password_hash AS "passwordHash",
+  google_sub AS "googleSub",
   role,
   password_reset_token AS "passwordResetToken",
   password_reset_token_expires_at AS "passwordResetTokenExpiresAt",
@@ -52,14 +53,57 @@ export async function findByUsername(username) {
   return toUser(rows[0]);
 }
 
-export async function create({ email, username, name, passwordHash }) {
+export async function findByGoogleSub(googleSub) {
+  const { rows } = await query(
+    `SELECT ${USER_COLUMNS} FROM users WHERE google_sub = $1`,
+    [googleSub],
+  );
+
+  return toUser(rows[0]);
+}
+
+export async function create({
+  email,
+  username,
+  name,
+  passwordHash = null,
+  googleSub = null,
+}) {
   const { rows } = await query(
     `
-      INSERT INTO users (email, username, name, password_hash)
-      VALUES ($1, $2, $3, $4)
+      INSERT INTO users (email, username, name, password_hash, google_sub)
+      VALUES ($1, $2, $3, $4, $5)
       RETURNING ${USER_COLUMNS}
     `,
-    [email, username, name, passwordHash],
+    [email, username, name, passwordHash, googleSub],
+  );
+
+  return toUser(rows[0]);
+}
+
+export async function updateName(id, name) {
+  const { rows } = await query(
+    `
+      UPDATE users
+      SET name = $2
+      WHERE id = $1
+      RETURNING ${USER_COLUMNS}
+    `,
+    [id, name],
+  );
+
+  return toUser(rows[0]);
+}
+
+export async function linkGoogleSub(id, googleSub) {
+  const { rows } = await query(
+    `
+      UPDATE users
+      SET google_sub = $2
+      WHERE id = $1 AND google_sub IS NULL
+      RETURNING ${USER_COLUMNS}
+    `,
+    [id, googleSub],
   );
 
   return toUser(rows[0]);

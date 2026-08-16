@@ -11,6 +11,7 @@ export const constraints = {
   gamesPkey: "games_pkey",
   usersEmail: "users_email_key",
   usersUsername: "users_username_key",
+  usersGoogleSub: "users_google_sub_key",
 };
 
 const conflictMessagesByConstraint = new Map([
