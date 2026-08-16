@@ -22,6 +22,9 @@ const envSchema = z.object({
     .int()
     .positive()
     .default(30),
+  // Public GIS client id, used as the ID-token audience. Empty means the
+  // Google button is unused and POST /auth/google rejects.
+  GOOGLE_CLIENT_ID: z.string().default(""),
 });
 
 const result = envSchema.safeParse(process.env);
@@ -50,6 +53,7 @@ export const env = {
   jwtGameSessionSecret: result.data.JWT_GAME_SESSION_SECRET,
   jwtGameSessionTtl: result.data.JWT_GAME_SESSION_TTL,
   passwordResetTokenTtlMinutes: result.data.PASSWORD_RESET_TOKEN_TTL_MINUTES,
+  googleClientId: result.data.GOOGLE_CLIENT_ID,
 };
 
 export const isProduction = env.nodeEnv === "production";
