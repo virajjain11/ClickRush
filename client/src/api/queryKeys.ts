@@ -12,4 +12,9 @@ export const queryKeys = {
   users: {
     me: ["users", "me"] as const,
   },
+  admin: {
+    all: ["admin"] as const,
+    users: ["admin", "users"] as const,
+    games: ["admin", "games"] as const,
+  },
 } as const;

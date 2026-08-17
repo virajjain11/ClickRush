@@ -6,7 +6,9 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router";
+import AdminRoute from "./components/AdminRoute";
 import Architecture from "./components/Architecture";
+import Dashboard from "./components/Dashboard";
 import ForgotPassword from "./components/ForgotPassword";
 import Home from "./components/Home";
 import Leaderboard from "./components/Leaderboard";
@@ -36,6 +38,9 @@ const router = createBrowserRouter(
         <Route path="play" element={<Play />} />
         <Route path="leaderboard" element={<Leaderboard />} />
         <Route path="stats" element={<Stats />} />
+        <Route element={<AdminRoute />}>
+          <Route path="dashboard" element={<Dashboard />} />
+        </Route>
       </Route>
       <Route path="*" element={<Navigate to="/home" replace />} />
     </Route>,

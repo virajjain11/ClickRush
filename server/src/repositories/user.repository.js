@@ -26,6 +26,29 @@ function toUser(row) {
   };
 }
 
+export async function findAllForAdmin() {
+  const { rows } = await query(
+    `
+      SELECT
+        id,
+        name,
+        username,
+        email,
+        created_at AS "createdAt"
+      FROM users
+      ORDER BY created_at DESC
+    `,
+  );
+
+  return rows.map((row) => ({
+    id: row.id,
+    name: row.name,
+    username: row.username,
+    email: row.email,
+    createdAt: row.createdAt.toISOString(),
+  }));
+}
+
 export async function findByEmail(email) {
   const { rows } = await query(
     `SELECT ${USER_COLUMNS} FROM users WHERE email = $1`,
