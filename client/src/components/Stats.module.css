@@ -12,16 +12,19 @@
   gap: 16px;
   min-height: 64px;
   padding: 12px 24px;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
   background-color: var(--color-surface);
 }
 
 .homeLink {
   border-radius: var(--radius-md);
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 12px;
+  line-height: 1.6;
+  font-weight: 400;
+  color: var(--color-cyan);
   text-decoration: none;
+  text-shadow: var(--shadow-glow-cyan);
 }
 
 .homeLink:focus-visible {
@@ -31,8 +34,10 @@
 }
 
 .mode {
-  font-size: 14px;
-  color: var(--color-text-muted);
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-amber);
 }
 
 .main {
@@ -46,14 +51,16 @@
 }
 
 .title {
-  font-size: 28px;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: clamp(14px, 2.2vw, 18px);
+  line-height: 1.7;
+  font-weight: 400;
   color: var(--color-text);
 }
 
 .subtitle {
-  margin-top: 8px;
-  font-size: 14px;
+  margin-top: 10px;
+  font-size: 18px;
   color: var(--color-text-muted);
 }
 
@@ -66,27 +73,34 @@
 .stat {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
   padding: 20px;
-  border: 1px solid var(--color-border);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-card);
 }
 
 .stat strong {
-  font-size: 28px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--color-amber);
+  text-shadow: var(--shadow-glow-amber);
   font-variant-numeric: tabular-nums;
 }
 
 .stat span {
-  font-size: 13px;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
 .card {
   padding: 24px;
-  border: 1px solid var(--color-border);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-card);
@@ -94,12 +108,14 @@
 
 .cardTitle {
   margin-bottom: 16px;
-  font-size: 16px;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 12px;
+  line-height: 1.6;
+  font-weight: 400;
 }
 
 .status {
-  font-size: 14px;
+  font-size: 18px;
   color: var(--color-text-muted);
 }
 
@@ -131,14 +147,17 @@
 }
 
 .historyScore {
-  font-size: 20px;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--color-amber);
   font-variant-numeric: tabular-nums;
 }
 
 .historyMeta,
 .historyDate {
-  font-size: 13px;
+  font-size: 16px;
   color: var(--color-text-muted);
 }
 
@@ -155,23 +174,26 @@
 }
 
 .error {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-danger);
 }
 
 .retry {
   padding: 8px 16px;
-  border: 1px solid var(--color-border-strong);
+  border: 2px solid var(--color-border-strong);
   border-radius: var(--radius-md);
-  background-color: var(--color-surface);
-  font-size: 14px;
-  font-weight: 500;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--color-text);
   cursor: pointer;
 }
 
 .retry:hover:not(:disabled) {
-  background-color: var(--color-background);
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
 }
 
 .retry:focus-visible {

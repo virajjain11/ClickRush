@@ -55,7 +55,7 @@ export default function GoogleSignInButton({ text }: GoogleSignInButtonProps) {
 
       buttonRef.current.replaceChildren();
       window.google.accounts.id.renderButton(buttonRef.current, {
-        theme: "outline",
+        theme: "filled_black",
         size: "large",
         text,
         shape: "rectangular",

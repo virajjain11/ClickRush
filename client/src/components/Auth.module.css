@@ -11,21 +11,33 @@
   width: 100%;
   max-width: 384px;
   padding: 32px;
-  border: 1px solid var(--color-border);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-card);
 }
 
+.brand {
+  margin-bottom: 20px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 400;
+  color: var(--color-cyan);
+  text-shadow: var(--shadow-glow-cyan);
+}
+
 .title {
-  font-size: 24px;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 400;
   color: var(--color-text);
 }
 
 .subtitle {
-  margin-top: 4px;
-  font-size: 14px;
+  margin-top: 8px;
+  font-size: 18px;
   color: var(--color-text-muted);
 }
 
@@ -65,17 +77,18 @@
   width: 100%;
   min-height: 40px;
   padding: 8px 16px;
-  border: 1px solid var(--color-border-strong);
+  border: 2px solid var(--color-border-strong);
   border-radius: var(--radius-md);
-  background-color: var(--color-surface);
-  font-size: 14px;
-  font-weight: 500;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 400;
   color: var(--color-text);
   cursor: pointer;
 }
 
 .googleFallback:hover:not(:disabled) {
-  background-color: var(--color-background);
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
 }
 
 .googleFallback:disabled {
@@ -93,7 +106,9 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 12px;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
@@ -107,8 +122,10 @@
 
 .label {
   display: block;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--color-text-subtle);
 }
 
@@ -116,11 +133,11 @@
   width: 100%;
   margin-top: 4px;
   padding: 8px 12px;
-  border: 1px solid var(--color-border-strong);
+  border: 2px solid var(--color-border-strong);
   border-radius: var(--radius-md);
-  font-size: 14px;
+  font-size: 18px;
   color: var(--color-text);
-  background-color: var(--color-surface);
+  background-color: #0a0a14;
   outline: none;
 }
 
@@ -144,35 +161,42 @@
 
 .error {
   margin-top: 4px;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-danger);
 }
 
 .success {
   margin-top: 4px;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-success);
 }
 
 .submit {
   width: 100%;
-  padding: 8px 16px;
-  border: none;
+  padding: 10px 16px;
+  border: 2px solid var(--color-accent);
   border-radius: var(--radius-md);
   background-color: var(--color-accent);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-surface);
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #041016;
   cursor: pointer;
-  transition: background-color 150ms ease;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
 }
 
 .submit:hover:not(:disabled) {
   background-color: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
 }
 
 .submit:disabled {
   background-color: var(--color-disabled);
+  border-color: var(--color-disabled);
+  color: var(--color-text-muted);
   cursor: not-allowed;
 }
 
@@ -183,14 +207,14 @@
 }
 
 .footer {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-text-muted);
   text-align: center;
 }
 
 .footerLink {
-  font-weight: 500;
-  color: var(--color-text);
+  font-weight: 400;
+  color: var(--color-cyan);
   text-decoration: none;
 }
 

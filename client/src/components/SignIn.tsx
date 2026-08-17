@@ -25,6 +25,7 @@ export default function SignIn() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
+        <p className={styles.brand}>ClickRush</p>
         <h1 className={styles.title}>Sign in</h1>
         <p className={styles.subtitle}>Enter your credentials to continue.</p>
 

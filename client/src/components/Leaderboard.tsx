@@ -27,7 +27,7 @@ export default function Leaderboard() {
 
       <main className={styles.main}>
         <div>
-          <h1 className={styles.title}>Leaderboard</h1>
+          <h1 className={styles.title}>Hi-scores</h1>
           <p className={styles.subtitle}>
             Best classic score per player. Periods close on the UTC calendar,
             and the first player to a tied score ranks higher.
@@ -114,12 +114,14 @@ export default function Leaderboard() {
                     key={entry.gameId}
                     className={entry.isViewer ? styles.viewerRow : undefined}
                   >
-                    <td className={styles.rank}>{entry.rank}</td>
+                    <td className={styles.rank}>
+                      {String(entry.rank).padStart(2, "0")}
+                    </td>
                     <td>
                       <span className={styles.playerName}>{entry.name}</span>
                       <span className={styles.username}>@{entry.username}</span>
                       {entry.isViewer && (
-                        <span className={styles.you}>You</span>
+                        <span className={styles.you}>YOU</span>
                       )}
                     </td>
                     <td className={styles.score}>{entry.score}</td>
