@@ -2,6 +2,8 @@
 
 A timed click game: sign in, survive a 3 second countdown, then click as many times as you can in 60 seconds. Scores are saved to your account, shown on personal stats, and ranked on a UTC leaderboard.
 
+[Watch a walkthrough on Loom](https://www.loom.com/share/8ac18df0434a4c2a9cfb4eb2cb4df2f3).
+
 ## How a round works
 
 1. Sign up, sign in, or Google. The access token is stored in `localStorage` on this device.
