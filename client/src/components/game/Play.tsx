@@ -4,6 +4,7 @@ import { useClassicGame } from "../../hooks/useClassicGame";
 import { useFinishGameMutation } from "../../hooks/useFinishGameMutation";
 import { useGameHistoryQuery } from "../../hooks/useGameHistoryQuery";
 import { useStartGameMutation } from "../../hooks/useStartGameMutation";
+import { celebrateHiScore } from "../../lib/celebrateHiScore";
 import GameTarget from "./GameTarget";
 import styles from "./Play.module.css";
 
@@ -20,6 +21,7 @@ export default function Play() {
     isSuccess: isFinishSuccess,
   } = useFinishGameMutation();
   const submittedTokenRef = useRef<string | null>(null);
+  const celebratedTokenRef = useRef<string | null>(null);
   const { confirmSavedScore, gameSessionToken, score } = game;
   const clicksPerSecond = game.score / (game.roundDurationMs / 1_000);
 
@@ -53,6 +55,20 @@ export default function Play() {
     submittedTokenRef.current = gameSessionToken;
     submitScore();
   }, [game.phase, gameSessionToken, submitScore]);
+
+  useEffect(() => {
+    if (
+      game.phase !== "finished" ||
+      !game.isNewPersonalBest ||
+      !game.gameSessionToken ||
+      celebratedTokenRef.current === game.gameSessionToken
+    ) {
+      return;
+    }
+
+    celebratedTokenRef.current = game.gameSessionToken;
+    celebrateHiScore();
+  }, [game.phase, game.isNewPersonalBest, game.gameSessionToken]);
 
   const handleStart = async () => {
     try {

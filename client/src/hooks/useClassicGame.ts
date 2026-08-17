@@ -39,6 +39,11 @@ export function useClassicGame(personalBestFromServer?: number) {
   }));
   const baselineBest = personalBestFromServer ?? cachedPersonalBest;
   const personalBest = Math.max(baselineBest, state.confirmedScore ?? 0);
+  const personalBestRef = useRef(personalBest);
+
+  useEffect(() => {
+    personalBestRef.current = personalBest;
+  }, [personalBest]);
 
   const beginRound = useCallback((session: StartGameResponse) => {
     if (
@@ -145,7 +150,8 @@ export function useClassicGame(personalBestFromServer?: number) {
           phase: "finished",
           score: finalScore,
           remainingMs: 0,
-          isNewPersonalBest: false,
+          isNewPersonalBest:
+            finalScore > 0 && finalScore > personalBestRef.current,
         }));
         return;
       }
