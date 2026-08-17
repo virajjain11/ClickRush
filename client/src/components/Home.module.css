@@ -11,30 +11,39 @@
   justify-content: space-between;
   gap: 16px;
   padding: 16px 24px;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
   background-color: var(--color-surface);
 }
 
 .brand {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 12px;
+  line-height: 1.6;
+  font-weight: 400;
+  color: var(--color-cyan);
+  text-shadow: var(--shadow-glow-cyan);
 }
 
 .signOut {
   padding: 8px 16px;
-  border: 1px solid var(--color-border-strong);
+  border: 2px solid var(--color-border-strong);
   border-radius: var(--radius-md);
-  background-color: var(--color-surface);
-  font-size: 14px;
-  font-weight: 500;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--color-text);
   cursor: pointer;
-  transition: background-color 150ms ease;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
 }
 
 .signOut:hover {
-  background-color: var(--color-background);
+  border-color: var(--color-magenta);
+  color: var(--color-magenta);
 }
 
 .signOut:focus-visible {
@@ -54,14 +63,16 @@
 }
 
 .title {
-  font-size: 28px;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: clamp(14px, 2.2vw, 18px);
+  line-height: 1.7;
+  font-weight: 400;
   color: var(--color-text);
 }
 
 .subtitle {
-  margin-top: 8px;
-  font-size: 14px;
+  margin-top: 10px;
+  font-size: 18px;
   color: var(--color-text-muted);
 }
 
@@ -73,7 +84,7 @@
 
 .card {
   padding: 24px;
-  border: 1px solid var(--color-border);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-card);
@@ -89,8 +100,8 @@
 }
 
 .cardLink:hover {
-  border-color: var(--color-border-strong);
-  box-shadow: 0 8px 24px rgb(15 23 42 / 0.08);
+  border-color: var(--color-cyan);
+  box-shadow: var(--shadow-glow-cyan);
   transform: translateY(-2px);
 }
 
@@ -102,23 +113,27 @@
 }
 
 .cardTitle {
-  font-size: 16px;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 12px;
+  line-height: 1.6;
+  font-weight: 400;
   color: var(--color-text);
 }
 
 .cardBody {
-  margin-top: 8px;
-  font-size: 14px;
+  margin-top: 10px;
+  font-size: 18px;
   color: var(--color-text-muted);
 }
 
 .cardAction {
   display: inline-block;
   margin-top: 20px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--color-text);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-amber);
 }
 
 .profile {
@@ -135,21 +150,23 @@
   flex-shrink: 0;
   width: 48px;
   height: 48px;
-  border-radius: 50%;
+  border: 2px solid #0c4a6e;
+  border-radius: var(--radius-md);
   background-color: var(--color-accent);
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--color-surface);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 400;
+  color: #041016;
 }
 
 .profileName {
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 400;
   color: var(--color-text);
 }
 
 .profileEmail {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-text-muted);
 }
 
@@ -159,7 +176,7 @@
   gap: 12px;
   margin: 20px 0 0;
   padding-top: 20px;
-  border-top: 1px solid var(--color-border);
+  border-top: 2px solid var(--color-border);
 }
 
 .detailRow {
@@ -170,13 +187,15 @@
 }
 
 .detailLabel {
-  font-size: 14px;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
 .detailValue {
   margin: 0;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-text);
   text-align: right;
   overflow-wrap: anywhere;
@@ -191,24 +210,27 @@
 }
 
 .error {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--color-danger);
 }
 
 .retry {
   padding: 8px 16px;
-  border: 1px solid var(--color-border-strong);
+  border: 2px solid var(--color-border-strong);
   border-radius: var(--radius-md);
-  background-color: var(--color-surface);
-  font-size: 14px;
-  font-weight: 500;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--color-text);
   cursor: pointer;
   transition: background-color 150ms ease;
 }
 
 .retry:hover:not(:disabled) {
-  background-color: var(--color-background);
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
 }
 
 .retry:focus-visible {

@@ -91,14 +91,14 @@ export default function GameTarget({
           disabled={isDisabled}
           aria-label={getTargetLabel(phase)}
         >
-          {phase === "idle" && (isStarting ? "Starting…" : "Start")}
-          {phase === "running" && "Click"}
+          {phase === "idle" && (isStarting ? "WAIT" : "START")}
+          {phase === "running" && "CLICK"}
           {phase === "finished" &&
             (isSaving
-              ? "Saving…"
+              ? "SAVE"
               : isStarting
-                ? "Starting…"
-                : "Play again")}
+                ? "WAIT"
+                : "AGAIN")}
         </button>
       )}
 

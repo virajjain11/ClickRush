@@ -81,7 +81,7 @@ export default function Play() {
         <div className={styles.intro}>
           <h1>How fast can you click?</h1>
           <p>
-            Use the primary mouse button, a single touch, Space, or Enter.
+            Primary click, one touch, Space, or Enter. 60 seconds on the clock.
           </p>
         </div>
 
@@ -100,21 +100,21 @@ export default function Play() {
         <div className={styles.resultSlot}>
           {game.phase === "idle" && (
             <p className={styles.personalBest}>
-              Personal best: <strong>{game.personalBest}</strong>
+              HI-SCORE <strong>{game.personalBest}</strong>
             </p>
           )}
 
           {game.phase === "countdown" && (
-            <p className={styles.status}>Get ready…</p>
+            <p className={styles.status}>Get ready</p>
           )}
 
           {game.phase === "running" && (
-            <p className={styles.status}>Keep going!</p>
+            <p className={styles.status}>Go</p>
           )}
 
           {game.phase === "finished" && (
             <section className={styles.results} aria-live="polite">
-              <h2>{game.isNewPersonalBest ? "New personal best!" : "Time!"}</h2>
+              <h2>{game.isNewPersonalBest ? "New hi-score" : "Time up"}</h2>
               <div className={styles.resultStats}>
                 <p>
                   <strong>{game.score}</strong>
@@ -126,7 +126,7 @@ export default function Play() {
                 </p>
                 <p>
                   <strong>{game.personalBest}</strong>
-                  <span>personal best</span>
+                  <span>hi-score</span>
                 </p>
               </div>
 

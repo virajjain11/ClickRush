@@ -1,33 +1,42 @@
 :root {
-  --color-surface: #ffffff;
-  --color-background: #f8fafc;
-  --color-border: #e2e8f0;
-  --color-border-strong: #cbd5e1;
-  --color-border-focus: #64748b;
-  --color-text: #0f172a;
-  --color-text-muted: #64748b;
-  --color-text-subtle: #334155;
-  --color-placeholder: #94a3b8;
-  --color-accent: #0f172a;
-  --color-accent-hover: #1e293b;
-  --color-disabled: #94a3b8;
-  --color-danger: #dc2626;
-  --color-danger-border: #f87171;
-  --color-danger-border-strong: #ef4444;
-  --color-danger-ring: #fee2e2;
-  --color-success: #16a34a;
-  --color-focus-ring: #f1f5f9;
+  --color-surface: #12121c;
+  --color-background: #07070f;
+  --color-border: #2a2a44;
+  --color-border-strong: #4b4b78;
+  --color-border-focus: #22d3ee;
+  --color-text: #e8f4ff;
+  --color-text-muted: #8b9bb4;
+  --color-text-subtle: #c5d0e0;
+  --color-placeholder: #5f7088;
+  --color-accent: #22d3ee;
+  --color-accent-hover: #67e8f9;
+  --color-disabled: #3f4b5b;
+  --color-danger: #fb7185;
+  --color-danger-border: #f43f5e;
+  --color-danger-border-strong: #fb7185;
+  --color-danger-ring: rgb(244 63 94 / 0.28);
+  --color-success: #4ade80;
+  --color-focus-ring: rgb(34 211 238 / 0.28);
+  --color-amber: #ffb703;
+  --color-magenta: #f472b6;
+  --color-cyan: #22d3ee;
 
-  --radius-md: 0.5rem;
-  --radius-lg: 1rem;
+  --radius-md: 2px;
+  --radius-lg: 4px;
 
-  --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-card: 0 0 0 1px #2a2a44, 0 0 24px rgb(34 211 238 / 0.08);
+  --shadow-glow-amber: 0 0 12px rgb(255 183 3 / 0.55);
+  --shadow-glow-cyan: 0 0 16px rgb(34 211 238 / 0.4);
 
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif;
-  line-height: 1.5;
+  --font-display: "Press Start 2P", "Courier New", monospace;
+  --font-body: "VT323", "Courier New", monospace;
+
+  color-scheme: dark;
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 1.4;
   color: var(--color-text);
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: none;
 }
 
 *,
@@ -36,10 +45,46 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  min-height: 100%;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
   background-color: var(--color-background);
+  background-image:
+    radial-gradient(ellipse at 50% -10%, #1a1a33 0%, transparent 52%),
+    linear-gradient(#07070f, #05050b);
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+body::before {
+  z-index: 8;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 46%,
+    rgb(0 0 0 / 0.42) 100%
+  );
+}
+
+body::after {
+  z-index: 9;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    rgb(0 0 0 / 0.16) 2px,
+    rgb(0 0 0 / 0.16) 3px
+  );
 }
 
 h1,
@@ -53,4 +98,24 @@ button,
 input {
   font: inherit;
   color: inherit;
+}
+
+::selection {
+  background: var(--color-cyan);
+  color: #041016;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-text);
+  caret-color: var(--color-text);
+  box-shadow: 0 0 0 1000px var(--color-surface) inset;
+  transition: background-color 9999s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    display: none;
+  }
 }

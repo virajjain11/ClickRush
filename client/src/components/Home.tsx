@@ -89,7 +89,7 @@ export default function Home() {
             <p className={styles.cardBody}>
               Test your speed in a 60 second classic round.
             </p>
-            <span className={styles.cardAction}>Play now →</span>
+            <span className={styles.cardAction}>Press start →</span>
           </Link>
 
           <Link to="/leaderboard" className={`${styles.card} ${styles.cardLink}`}>
