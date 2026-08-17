@@ -74,10 +74,6 @@ export default function Home() {
                     {formatMemberSince(user.createdAt)}
                   </dd>
                 </div>
-                <div className={styles.detailRow}>
-                  <dt className={styles.detailLabel}>User ID</dt>
-                  <dd className={styles.detailValue}>{user.id}</dd>
-                </div>
               </dl>
             </>
           )}
