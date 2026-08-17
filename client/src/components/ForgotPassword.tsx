@@ -28,6 +28,9 @@ export default function ForgotPassword() {
         <p className={styles.subtitle}>
           We'll email you a link to reset your password.
         </p>
+        <p className={styles.note} role="status">
+          Password reset is not implemented yet.
+        </p>
 
         <form
           className={styles.form}
