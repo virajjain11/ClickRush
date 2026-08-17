@@ -103,6 +103,19 @@ export default function Home() {
             </p>
             <span className={styles.cardAction}>View stats →</span>
           </Link>
+
+          {user?.role === "admin" && (
+            <Link
+              to="/dashboard"
+              className={`${styles.card} ${styles.cardLink}`}
+            >
+              <h2 className={styles.cardTitle}>Dashboard</h2>
+              <p className={styles.cardBody}>
+                Review every account and the games logged in the database.
+              </p>
+              <span className={styles.cardAction}>View activity →</span>
+            </Link>
+          )}
         </div>
       </main>
     </div>

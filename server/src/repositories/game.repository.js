@@ -50,6 +50,34 @@ export async function create({
   return toGame(rows[0]);
 }
 
+export async function findAllWithPlayer() {
+  const { rows } = await query(
+    `
+      SELECT
+        g.id,
+        u.name,
+        u.username,
+        g.score,
+        g.ended_at AS "playedAt"
+      FROM games g
+      JOIN users u ON u.id = g.user_id
+      ORDER BY g.ended_at DESC
+    `,
+  );
+
+  return rows.map(toAdminGame);
+}
+
+function toAdminGame(row) {
+  return {
+    id: row.id,
+    name: row.name,
+    username: row.username,
+    score: row.score,
+    playedAt: row.playedAt.toISOString(),
+  };
+}
+
 export async function findHistoryByUser({ userId, mode, limit }) {
   const { rows } = await query(
     `

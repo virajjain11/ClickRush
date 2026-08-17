@@ -16,4 +16,8 @@ export const endpoints = {
   users: {
     me: `${API_PREFIX}/users/me`,
   },
+  admin: {
+    users: `${API_PREFIX}/admin/users`,
+    games: `${API_PREFIX}/admin/games`,
+  },
 } as const;

@@ -1,0 +1,12 @@
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+.status {
+  font-size: 18px;
+  color: var(--color-text-muted);
+}
