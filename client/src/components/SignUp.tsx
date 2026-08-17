@@ -25,6 +25,7 @@ export default function SignUp() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
+        <p className={styles.brand}>ClickRush</p>
         <h1 className={styles.title}>Sign up</h1>
         <p className={styles.subtitle}>Create an account to get started.</p>
 

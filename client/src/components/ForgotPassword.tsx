@@ -23,6 +23,7 @@ export default function ForgotPassword() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
+        <p className={styles.brand}>ClickRush</p>
         <h1 className={styles.title}>Forgot password</h1>
         <p className={styles.subtitle}>
           We'll email you a link to reset your password.
