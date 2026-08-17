@@ -6,6 +6,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router";
+import Architecture from "./components/Architecture";
 import ForgotPassword from "./components/ForgotPassword";
 import Home from "./components/Home";
 import Leaderboard from "./components/Leaderboard";
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Navigate to="/home" replace />} />
+      <Route path="architecture" element={<Architecture />} />
       <Route element={<PublicOnlyRoute />}>
         <Route path="sign-in" element={<SignIn />} />
         <Route path="sign-up" element={<SignUp />} />
